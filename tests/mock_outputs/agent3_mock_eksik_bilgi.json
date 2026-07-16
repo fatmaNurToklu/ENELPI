@@ -1,0 +1,40 @@
+{
+  "sema_versiyonu": "1.0",
+  "evrak_id": "EVR-2026-0002",
+  "kaynak_baglam": {
+    "evrak_turu": "BILGI_EDINME_BASVURUSU",
+    "agent2_durum": "EKSIK_BILGI",
+    "eksik_alanlar": ["tc_kimlik", "gonderici"],
+    "mevzuat_sayisi": 1
+  },
+  "uretilen_taslak": {
+    "sablon_turu": "BILGI_EDINME_CEVABI",
+    "taslak_metni": "[BİLGİ EKSİK: gonderici] adlı başvuru sahibine,\n\nT.C. Bilişim Vadisi Yönetim Kurulu Başkanlığına yapmış olduğunuz bilgi edinme talebiniz tarafımızca değerlendirilmeye alınmıştır. 4982 Sayılı Bilgi Edinme Hakkı Kanunu Madde 5 uyarınca başvurunuz değerlendirilecektir.\n\nBaşvurunuzun işleme alınabilmesi için aşağıdaki bilgilerin tarafımıza iletilmesi gerekmektedir:\n[BİLGİ EKSİK: tc_kimlik]\n\nSaygılarımızla,\nT.C. Bilişim Vadisi Yönetim Kurulu",
+    "eksik_alan_yer_tutucular": ["gonderici", "tc_kimlik"],
+    "resmi_uslup_kontrolu": {
+      "uygun_mu": true,
+      "tespit_edilen_sorunlar": []
+    }
+  },
+  "durum": "TASLAK_HAZIR_EKSIK_BILGI",
+  "_mock_agent2": {
+    "evrak_turu": "BILGI_EDINME_BASVURUSU",
+    "cikartilan_bilgiler": {
+      "gonderici": null,
+      "gonderici_kurum": null,
+      "alici_kurum": "T.C. Bilişim Vadisi Yönetim Kurulu Başkanlığı",
+      "konu": "Ar-Ge destekleri hakkında bilgi edinme",
+      "tarih": "2026-07-11",
+      "belge_sayisi": null,
+      "tc_kimlik": null,
+      "imza_sahibi": null,
+      "ekler": null
+    },
+    "ilgili_mevzuat": [
+      {"madde": "4982 Sayılı Bilgi Edinme Hakkı Kanunu Madde 5", "ozet": "Başvurular 15 iş günü içinde yanıtlanır."}
+    ],
+    "eksik_alanlar": ["tc_kimlik", "gonderici"],
+    "ozet": "Kimliği tam belirlenemeyen bir başvurucu, Bilişim Vadisi'nin Ar-Ge destekleri hakkında bilgi edinme talebinde bulunmuştur. TC kimlik numarası ve gönderici adı eksiktir."
+  },
+  "_mock_agent1_ocr_guven_skoru": 0.85
+}

@@ -1,0 +1,40 @@
+{
+  "sema_versiyonu": "1.0",
+  "evrak_id": "EVR-2026-0003",
+  "kaynak_baglam": {
+    "evrak_turu": "SIKAYET_BASVURUSU",
+    "agent2_durum": "MANUEL_INCELEME",
+    "eksik_alanlar": ["gonderici", "tc_kimlik", "konu"],
+    "mevzuat_sayisi": 1
+  },
+  "uretilen_taslak": {
+    "sablon_turu": "SIKAYET_CEVABI",
+    "taslak_metni": "[UYARI: Bu evrak düşük güven skoruyla işlenmiştir, insan denetimi önerilir]\n\nSayın İlgili,\n\nTarafımıza iletilen şikayet başvurunuz değerlendirilmeye alınmıştır. Ancak başvurunuzda yer alan bazı bilgiler netlik taşımadığından süreç şu an tamamlanamamaktadır:\n[BİLGİ EKSİK: gonderici]\n[BİLGİ EKSİK: tc_kimlik]\n[BİLGİ EKSİK: konu]\n\nSaygılarımızla,\nT.C. Bilişim Vadisi Yönetim Kurulu",
+    "eksik_alan_yer_tutucular": ["gonderici", "tc_kimlik", "konu"],
+    "resmi_uslup_kontrolu": {
+      "uygun_mu": true,
+      "tespit_edilen_sorunlar": []
+    }
+  },
+  "durum": "TASLAK_HAZIR_MANUEL_INCELEME_UYARILI",
+  "_mock_agent2": {
+    "evrak_turu": "SIKAYET_BASVURUSU",
+    "cikartilan_bilgiler": {
+      "gonderici": null,
+      "gonderici_kurum": null,
+      "alici_kurum": "T.C. Bilişim Vadisi Yönetim Kurulu Başkanlığı",
+      "konu": null,
+      "tarih": "2026-07-12",
+      "belge_sayisi": null,
+      "tc_kimlik": null,
+      "imza_sahibi": null,
+      "ekler": null
+    },
+    "ilgili_mevzuat": [
+      {"madde": "3071 Sayılı Dilekçe Hakkının Kullanılmasına Dair Kanun", "ozet": "Her türlü şikayet başvurusu 30 gün içinde sonuçlandırılmalıdır."}
+    ],
+    "eksik_alanlar": ["gonderici", "tc_kimlik", "konu"],
+    "ozet": "Düşük OCR güven skoruyla işlenen bu şikayet başvurusunda gönderici kimliği, TC kimlik numarası ve şikayetin konusu tespit edilememiştir. İnsan denetimi önerilmektedir."
+  },
+  "_mock_agent1_ocr_guven_skoru": 0.58
+}

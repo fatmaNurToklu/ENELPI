@@ -1,0 +1,40 @@
+{
+  "sema_versiyonu": "1.0",
+  "evrak_id": "EVR-2026-0001",
+  "kaynak_baglam": {
+    "evrak_turu": "BILGI_EDINME_BASVURUSU",
+    "agent2_durum": "TAMAMLANDI",
+    "eksik_alanlar": [],
+    "mevzuat_sayisi": 1
+  },
+  "uretilen_taslak": {
+    "sablon_turu": "BILGI_EDINME_CEVABI",
+    "taslak_metni": "Sayın Ahmet Yılmaz,\n\nT.C. Bilişim Vadisi Yönetim Kurulu Başkanlığına yapmış olduğunuz bilgi edinme talebiniz tarafımızca değerlendirilmeye alınmıştır. 4982 Sayılı Bilgi Edinme Hakkı Kanunu Madde 5 uyarınca başvurunuz 15 iş günü içerisinde sonuçlandırılacaktır.\n\nBaşvurunuzla ilgili herhangi bir sorunuz olması durumunda kurumumuzla iletişime geçebilirsiniz.\n\nSaygılarımızla,\nT.C. Bilişim Vadisi Yönetim Kurulu",
+    "eksik_alan_yer_tutucular": [],
+    "resmi_uslup_kontrolu": {
+      "uygun_mu": true,
+      "tespit_edilen_sorunlar": []
+    }
+  },
+  "durum": "TASLAK_HAZIR",
+  "_mock_agent2": {
+    "evrak_turu": "BILGI_EDINME_BASVURUSU",
+    "cikartilan_bilgiler": {
+      "gonderici": "Ahmet Yılmaz",
+      "gonderici_kurum": null,
+      "alici_kurum": "T.C. Bilişim Vadisi Yönetim Kurulu Başkanlığı",
+      "konu": "Teknoloji altyapısı hakkında bilgi edinme talebi",
+      "tarih": "2026-07-10",
+      "belge_sayisi": null,
+      "tc_kimlik": "12345678901",
+      "imza_sahibi": null,
+      "ekler": null
+    },
+    "ilgili_mevzuat": [
+      {"madde": "4982 Sayılı Bilgi Edinme Hakkı Kanunu Madde 5", "ozet": "Başvurular 15 iş günü içinde yanıtlanır."}
+    ],
+    "eksik_alanlar": [],
+    "ozet": "Vatandaş Ahmet Yılmaz, Bilişim Vadisi'nin teknoloji altyapısı hakkında 4982 sayılı Kanun kapsamında bilgi edinme talebinde bulunmuştur."
+  },
+  "_mock_agent1_ocr_guven_skoru": 0.92
+}

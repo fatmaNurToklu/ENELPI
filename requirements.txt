@@ -1,0 +1,31 @@
+# TEKNOFEST TYDA 2026 — ENELPİ Takımı
+# Birleşik requirements (Agent 1 + 2 + 3 + 4)
+
+# ── LangGraph & LangChain ─────────────────────────────────────────────────────
+langgraph>=0.2.55
+langchain>=0.3.0
+langchain-ollama>=0.2.0
+langchain-core>=0.3.0
+
+# ── Vektör DB (Agent 2 RAG) ───────────────────────────────────────────────────
+chromadb>=0.4.0
+
+# ── OCR (Agent 1) ─────────────────────────────────────────────────────────────
+pytesseract>=0.3.10
+pdfplumber>=0.11.0
+opencv-python-headless>=4.9.0
+numpy>=1.26.0
+Pillow>=10.0.0
+
+# ── JSON Schema Doğrulama ─────────────────────────────────────────────────────
+jsonschema>=4.23.0
+
+# ── Kullanıcı Arayüzü ─────────────────────────────────────────────────────────
+gradio>=4.44.0
+
+# ── Test ──────────────────────────────────────────────────────────────────────
+pytest>=8.3.0
+pytest-asyncio>=0.24.0
+
+# ── Yardımcılar ───────────────────────────────────────────────────────────────
+python-dotenv>=1.0.0

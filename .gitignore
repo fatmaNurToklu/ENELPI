@@ -1,0 +1,40 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Streamlit
+.streamlit/
+
+# Pytest
+.pytest_cache/
+
+# Temp files
+temp_evraklar/
+*.tmp
+
+# ChromaDB data (büyük dosyalar - ilk kurulumda yeniden oluşturulur)
+# chroma_veri/ — agent2/chroma_veri/ push edilecek
+chroma_veri/
+
+# Byte-compiled
+*.egg-info/
+dist/
+build/

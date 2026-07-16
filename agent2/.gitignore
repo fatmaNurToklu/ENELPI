@@ -1,0 +1,6 @@
+chroma_veri/
+cikti_agent2/
+__pycache__/
+*.pyc
+venv/
+.env

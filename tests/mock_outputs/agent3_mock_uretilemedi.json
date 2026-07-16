@@ -1,0 +1,45 @@
+{
+  "sema_versiyonu": "1.0",
+  "evrak_id": "EVR-2026-0004",
+  "kaynak_baglam": {
+    "evrak_turu": "SOZLESME_PROTOKOL",
+    "agent2_durum": "TAMAMLANDI",
+    "eksik_alanlar": [],
+    "mevzuat_sayisi": 6
+  },
+  "uretilen_taslak": {
+    "sablon_turu": "GENEL_AMACLI",
+    "taslak_metni": "",
+    "eksik_alan_yer_tutucular": [],
+    "resmi_uslup_kontrolu": {
+      "uygun_mu": false,
+      "tespit_edilen_sorunlar": ["bos_cikti"]
+    }
+  },
+  "durum": "URETILEMEDI",
+  "_mock_agent2": {
+    "evrak_turu": "SOZLESME_PROTOKOL",
+    "cikartilan_bilgiler": {
+      "gonderici": "T.C. Bilişim Vadisi Yönetim Kurulu",
+      "gonderici_kurum": "T.C. Bilişim Vadisi",
+      "alici_kurum": "ABC Teknoloji A.Ş.",
+      "konu": "2026 yılı yazılım geliştirme hizmet sözleşmesi",
+      "tarih": "2026-07-01",
+      "belge_sayisi": "2026/001",
+      "tc_kimlik": null,
+      "imza_sahibi": "Mehmet Demir",
+      "ekler": ["EK-1: Teknik Şartname", "EK-2: Fiyat Listesi"]
+    },
+    "ilgili_mevzuat": [
+      {"madde": "4734 Sayılı Kamu İhale Kanunu Madde 22", "ozet": "Doğrudan temin yöntemi."},
+      {"madde": "4735 Sayılı Kamu İhale Sözleşmeleri Kanunu Madde 4", "ozet": "Sözleşme tanımı."},
+      {"madde": "Türk Borçlar Kanunu Madde 12", "ozet": "Sözleşme şekli."},
+      {"madde": "5018 Sayılı Kamu Mali Yönetimi Kanunu Madde 38", "ozet": "Gider taahhüdü."},
+      {"madde": "2886 Sayılı Devlet İhale Kanunu Madde 1", "ozet": "Kapsam."},
+      {"madde": "Resmî Yazışma Yönetmeliği Madde 8", "ozet": "İmza zorunluluğu."}
+    ],
+    "eksik_alanlar": [],
+    "ozet": "T.C. Bilişim Vadisi ile ABC Teknoloji A.Ş. arasında 2026 yılı yazılım geliştirme hizmetlerine ilişkin sözleşme protokolü. 6 farklı mevzuat maddesi eşleşmiştir."
+  },
+  "_mock_agent1_ocr_guven_skoru": 0.88
+}

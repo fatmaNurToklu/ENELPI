@@ -1,0 +1,5 @@
+cikti_agent3/
+__pycache__/
+*.pyc
+venv/
+.env
