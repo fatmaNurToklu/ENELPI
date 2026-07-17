@@ -139,9 +139,29 @@ def real_agent2_node(state: AgentState) -> Dict[str, Any]:
             "[RealAgent2Node] Loopback #%d — tamamlanan alanlar: %s",
             loopback, tamamlanan,
         )
-        # agent1_json on_cikarimlar'ını kullanıcının girdiği bilgilerle zenginleştir
-        # (Bu bilgiler human_loop_node tarafından state'e yazılmıştır)
-        # agent2.bilgi_cikar zaten state alanlarını önceliklendirir
+        # Kullanıcının girdiği bilgileri temizlenmis_metin'den parse et
+        # ve agent1_json["on_cikarimlar"]'a doğrudan enjekte et
+        # Bu sayede bilgi_cikar() bu değerleri seed olarak alır
+        metin = state.get("temizlenmis_metin") or ""
+        marker = "--- Kullanıcı Tarafından Tamamlanan Eksik Bilgiler ---"
+        if marker in metin:
+            kullanici_bloklari = metin.split(marker)[1:]  # marker'dan sonraki tüm bloklar
+            on_cik = dict(agent1_json.get("on_cikarimlar") or {})
+            for blok in kullanici_bloklari:
+                for satir in blok.strip().splitlines():
+                    satir = satir.strip()
+                    if ":" in satir:
+                        alan, deger = satir.split(":", 1)
+                        alan = alan.strip().lower()
+                        deger = deger.strip()
+                        if deger:
+                            on_cik[alan] = deger
+            agent1_json = dict(agent1_json)
+            agent1_json["on_cikarimlar"] = on_cik
+            logger.info(
+                "[RealAgent2Node] on_cikarimlar kullanıcı verisiyle güncellendi: %s",
+                {k: v for k, v in on_cik.items() if v is not None},
+            )
 
     sonuc = agent2_calistir(agent1_json)
 

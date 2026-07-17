@@ -401,8 +401,9 @@ def _run_pipeline(
     dosya_yolu: Optional[str] = None,
     use_real: bool = False,
     model_name: str = "gemma3:4b",
+    progress_callback: Optional[Any] = None,
 ) -> Dict[str, Any]:
-    """LangGraph pipeline'ını başlatır."""
+    """LangGraph pipeline'ını başlatır. progress_callback varsa her node sonrası çağrılır."""
     # LLM Modeli dinamik olarak ata
     agent4.state.OLLAMA_MODEL = model_name
     
@@ -415,8 +416,26 @@ def _run_pipeline(
         pipeline_modu="GERCEK" if use_real else "DEMO",
     )
     
+    # Node → ilerleme bilgisi eşleştirmesi
+    NODE_PROGRESS = {
+        "agent1": (25, "✅ Ajan 1: OCR & Sınıflandırma tamamlandı"),
+        "agent2": (50, "✅ Ajan 2: NER & Mevzuat RAG tamamlandı"),
+        "agent3": (70, "✅ Ajan 3: Slot-Filling Taslaklama tamamlandı"),
+        "routing": (85, "✅ Ajan 4: Yönlendirme tamamlandı"),
+        "output": (95, "✅ Çıktı oluşturuluyor..."),
+        "missing_info": (75, "⏸️ Eksik bilgi tespit edildi — kullanıcı girdisi bekleniyor"),
+        "human_approval": (75, "⏸️ İnsan onayı bekleniyor"),
+        "retry_agent3": (65, "🔄 Ajan 3 yeniden deneniyor..."),
+    }
+    
     try:
-        result = graph.invoke(state0, config)
+        result = {}
+        for event in graph.stream(state0, config, stream_mode="updates"):
+            for node_name, node_output in event.items():
+                result.update(node_output)
+                if progress_callback and node_name in NODE_PROGRESS:
+                    pct, label = NODE_PROGRESS[node_name]
+                    progress_callback(pct, label)
     except Exception as e:
         logger.exception("Pipeline çağrı hatası: %s", e)
         result = {}
@@ -429,7 +448,7 @@ def _run_pipeline(
                 interrupt_data = t.interrupts[0].value
                 break
         return {"interrupted": True, "interrupt_data": interrupt_data, "state": gs.values, "next_node": gs.next[0]}
-    return {"interrupted": False, "result": result, "state": result}
+    return {"interrupted": False, "result": gs.values, "state": gs.values}
 
 
 def _resume_pipeline(
@@ -447,10 +466,10 @@ def _resume_pipeline(
     
     from langgraph.types import Command
     try:
-        result = graph.invoke(Command(resume=resume_val), config)
+        for event in graph.stream(Command(resume=resume_val), config, stream_mode="updates"):
+            pass  # Tüm stream eventlerini tüket
     except Exception as e:
         logger.exception("Pipeline devam hatası: %s", e)
-        result = {}
         
     gs = graph.get_state(config)
     if gs.next:
@@ -460,7 +479,7 @@ def _resume_pipeline(
                 interrupt_data = t.interrupts[0].value
                 break
         return {"interrupted": True, "interrupt_data": interrupt_data, "state": gs.values, "next_node": gs.next[0]}
-    return {"interrupted": False, "result": result, "state": result}
+    return {"interrupted": False, "result": gs.values, "state": gs.values}
 
 
 # ─── Arayüz State Yönetimi ───────────────────────────────────────────────────
@@ -588,29 +607,26 @@ with col1:
         st.session_state.pipeline_running = True
         
         # ─── İLERLEME ÇUBUĞU İLE PIPELINE ÇALIŞTIRMA ───
-        adim_labels = [
-            "Ajan 1: OCR & Sınıflandırma",
-            "Ajan 2: NER & Mevzuat RAG",
-            "Ajan 3: Slot-Filling Taslaklama",
-            "Ajan 4: Orkestrasyon & Yönlendirme",
-        ]
-        
         progress_bar = st.progress(0, text="⏳ Pipeline başlatılıyor...")
         status_box = st.empty()
         
         # İlk adım göster
-        progress_bar.progress(10, text=f"🔍 {adim_labels[0]} çalışıyor...")
+        progress_bar.progress(5, text="🔍 Ajan 1: OCR & Sınıflandırma çalışıyor...")
+        
+        # Her node tamamlandığında çağrılacak callback
+        def _progress_update(pct: int, label: str):
+            progress_bar.progress(pct, text=label)
         
         # Pipeline'ı çalıştır
         res = None
         if not use_real:
-            progress_bar.progress(25, text=f"🔍 {adim_labels[0]} çalışıyor...")
             res = _run_pipeline(
                 evrak_id=evrak_id,
                 senaryo=st.session_state.senaryo,
                 thread_id=st.session_state.thread_id,
                 use_real=False,
-                model_name=model_name
+                model_name=model_name,
+                progress_callback=_progress_update
             )
         else:
             if yuklenen_dosya is None:
@@ -618,14 +634,14 @@ with col1:
                 st.error("Lütfen önce bir dosya yükleyin!")
                 res = None
             else:
-                progress_bar.progress(15, text=f"🔍 {adim_labels[0]} çalışıyor...")
                 res = _run_pipeline(
                     evrak_id=evrak_id,
                     senaryo="TASLAK_HAZIR",
                     thread_id=st.session_state.thread_id,
                     dosya_yolu=dosya_yolu,
                     use_real=True,
-                    model_name=model_name
+                    model_name=model_name,
+                    progress_callback=_progress_update
                 )
                 # Geçici dosyayı sil
                 try: os.remove(dosya_yolu)
