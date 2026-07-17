@@ -33,6 +33,7 @@
 
 - [Proje Özeti](#-proje-özeti)
 - [Sistem Mimarisi](#️-sistem-mimarisi)
+- [Veri Kaynakları](#-veri-kaynakları)
 - [Ekip Üyeleri](#-ekip-üyeleri)
 - [Kurulum ve Başlatma](#-kurulum-ve-başlatma)
 - [Proje Yapısı](#-proje-yapısı)
@@ -82,6 +83,16 @@ Evrak Girişi (PDF/JPG/TXT)
     Yönlendirilmiş Resmî Yazı
     + Kullanıcı Bildirimi
 ```
+
+---
+
+## 📊 Veri Kaynakları
+
+### Mevzuat Verisi
+Ajan 2'nin mevzuat RAG mimarisinde kullanılan yönetmelik ve genelge metinleri [mevzuat.gov.tr](https://www.mevzuat.gov.tr) üzerinden derlenmiş ve ChromaDB'ye yüklenmiştir.
+
+### Sentetik Veri Üretimi
+Şartname gereği gerçek kamu verisi kullanılmadığından, veri kümesi tamamen sentetik üretilmiştir. *Resmî Yazışmalarda Uygulanacak Usul ve Esaslar Hakkında Yönetmelik* referans alınarak Jinja2 ile 11 belge türü için şablonlar hazırlanmış, kişisel alanlar Faker (`tr_TR`) ile doldurularak toplam 165 belge (her türden 15) üretilmiştir. Belgelerin %60'ı temiz PDF, %40'ı taranmış evrak koşullarını simüle eden gürültülü JPEG olarak dışa aktarılmış; bazı zorunlu alanlar eksik bilgi tespitini test etmek amacıyla kasıtlı boş bırakılmıştır.
 
 ---
 
@@ -203,7 +214,7 @@ ENELPI/
 │   │   ├── real_agents_node.py
 │   │   ├── routing_node.py
 │   │   └── output_node.py
-│   ├── adapters/            # Ajan adaptörleri
+│   ├── adapters/             # Ajan adaptörleri
 │   └── ui/                  # Gradio arayüz (alternatif)
 ├── info/                    # Proje dokümantasyonu & veri sözleşmeleri
 ├── tests/                   # Test dosyaları
