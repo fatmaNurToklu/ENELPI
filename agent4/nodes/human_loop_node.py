@@ -143,7 +143,16 @@ def human_approval_node(state: AgentState) -> Dict[str, Any]:
     else:
         sistem_durumu = "KRITIK_HATA_MANUEL_KUYRUK"
 
-    return {
+    res_dict = {
         "sistem_durumu": sistem_durumu,
         "hata_log": hata_log,
     }
+
+    if karar == "ONAYLA" and "edited_draft" in onay_karari:
+        yeni_agent3 = dict(agent3)
+        yeni_taslak = dict(taslak)
+        yeni_taslak["taslak_metni"] = onay_karari["edited_draft"]
+        yeni_agent3["uretilen_taslak"] = yeni_taslak
+        res_dict["agent3_output"] = yeni_agent3
+
+    return res_dict

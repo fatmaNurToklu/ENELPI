@@ -727,7 +727,7 @@ with col2:
             if current_node == "missing_info":
                 completed_nodes = ["agent1", "agent2", "agent3"]
             elif current_node == "human_approval":
-                completed_nodes = ["agent1", "agent2", "agent3"]
+                completed_nodes = ["agent1", "agent2", "agent3", "routing"]
         else:
             completed_nodes = ["agent1", "agent2", "agent3", "routing"]
             
@@ -755,7 +755,7 @@ with col2:
                 highlighted_taslak = _highlight_missing(taslak_metni)
                 st.markdown(f"""
                 <div style="background:#0f172a;border:1px solid #2d3748;border-radius:10px;padding:20px;font-family:monospace;font-size:0.95rem;line-height:1.7;color:#e2e8f0;white-space:pre-wrap">
-                    {highlighted_taslak}
+                     {highlighted_taslak}
                 </div>
                 """, unsafe_allow_html=True)
             else:
@@ -764,10 +764,7 @@ with col2:
         # ─── TAB: YÖNLENDİRME ───
         with tab_routing:
             st.markdown("#### Birim Yönlendirme Kararı")
-            yonlendirme = None
-            if not interrupted:
-                final_res = res.get("result", {})
-                yonlendirme = final_res.get("nihai_yonlendirme")
+            yonlendirme = state_values.get("nihai_yonlendirme") or res.get("result", {}).get("nihai_yonlendirme")
                 
             st.markdown(_routing_card(yonlendirme), unsafe_allow_html=True)
             

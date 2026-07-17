@@ -40,14 +40,12 @@ def after_agent1_router(state: AgentState) -> Literal["agent2", "output"]:
 
 def after_agent3_router(
     state: AgentState,
-) -> Literal["routing", "missing_info", "human_approval", "retry_agent3", "output"]:
+) -> Literal["routing", "missing_info", "retry_agent3", "output"]:
     """
     Agent 3 sonrası ana yönlendirme kararı.
     Sözleşme §5 karar matrisi birebir uygulanmıştır.
     """
     agent3 = state.get("agent3_output") or {}
-    taslak = agent3.get("uretilen_taslak", {}) or {}
-    uslup = taslak.get("resmi_uslup_kontrolu", {}) or {}
     durum = agent3.get("durum", "")
     retry_count = state.get("retry_count", 0)
 
@@ -61,7 +59,38 @@ def after_agent3_router(
         logger.warning("[Router] URETILEMEDI — max retry aşıldı. Kritik hata.")
         return "output"
 
-    # ── Üslup ihlali → insan onayı (durum'dan bağımsız, sözleşme §5 notu) ────
+    # ── Eksik bilgi → interrupt döngüsü ──────────────────────────────────────
+    if durum == "TASLAK_HAZIR_EKSIK_BILGI":
+        logger.info("[Router] EKSIK_BILGI → missing_info interrupt")
+        return "missing_info"
+
+    # ── Taslak Hazır (Normal, Manuel İnceleme veya Üslup Uyarılı) ─────────────
+    # Hepsi için önce yönlendirme kararı üretilsin (routing düğümü)
+    if durum in ["TASLAK_HAZIR", "TASLAK_HAZIR_MANUEL_INCELEME_UYARILI"]:
+        logger.info("[Router] Taslak hazır (%s) → Önce yönlendirme (routing)", durum)
+        return "routing"
+
+    # ── Bilinmeyen durum → kritik hata ────────────────────────────────────────
+    logger.error("[Router] Bilinmeyen agent3 durumu: %s", durum)
+    return "output"
+
+
+def after_routing_router(
+    state: AgentState,
+) -> Literal["human_approval", "output"]:
+    """
+    Yönlendirme kararı üretildikten sonra insan onayı gerekip gerekmediğini denetler.
+    """
+    agent1 = state.get("agent1_output") or {}
+    meta = agent1.get("agent1_islem_metadata", {}) or {}
+    ocr_guven = meta.get("ocr_guven_skoru", 1.0) or 1.0
+
+    agent3 = state.get("agent3_output") or {}
+    taslak = agent3.get("uretilen_taslak", {}) or {}
+    uslup = taslak.get("resmi_uslup_kontrolu", {}) or {}
+    durum = agent3.get("durum", "")
+
+    # ── Üslup ihlali → insan onayı (sözleşme §5 notu) ─────────────────────────
     if not uslup.get("uygun_mu", True):
         logger.info("[Router] Üslup ihlali tespit edildi → human_approval")
         return "human_approval"
@@ -71,18 +100,13 @@ def after_agent3_router(
         logger.info("[Router] MANUEL_INCELEME_UYARILI → human_approval")
         return "human_approval"
 
-    # ── Eksik bilgi → interrupt döngüsü ──────────────────────────────────────
-    if durum == "TASLAK_HAZIR_EKSIK_BILGI":
-        logger.info("[Router] EKSIK_BILGI → missing_info interrupt")
-        return "missing_info"
+    # ── Düşük OCR güven skoru (< 0.70) → insan onayı ─────────────────────────
+    if ocr_guven < 0.70:
+        logger.info("[Router] Düşük OCR güven skoru (%.2f) → human_approval", ocr_guven)
+        return "human_approval"
 
-    # ── Normal taslak → yönlendirme ──────────────────────────────────────────
-    if durum == "TASLAK_HAZIR":
-        logger.info("[Router] TASLAK_HAZIR → routing")
-        return "routing"
-
-    # ── Bilinmeyen durum → kritik hata ────────────────────────────────────────
-    logger.error("[Router] Bilinmeyen agent3 durumu: %s", durum)
+    # ── Normal durum → doğrudan çıktı ─────────────────────────────────────────
+    logger.info("[Router] Otomatik onaylanabilir → output")
     return "output"
 
 
@@ -168,14 +192,20 @@ def build_graph(use_memory: bool = True, use_real_agents: bool = False) -> State
         {
             "routing":       "routing",
             "missing_info":  "missing_info",
-            "human_approval": "human_approval",
             "retry_agent3":  "retry_agent3",
             "output":        "output",
         },
     )
 
-    # Yönlendirme → Çıktı
-    builder.add_edge("routing", "output")
+    # Yönlendirme sonrası — İnsan onayı gerekip gerekmediğini denetle
+    builder.add_conditional_edges(
+        "routing",
+        after_routing_router,
+        {
+            "human_approval": "human_approval",
+            "output":        "output",
+        },
+    )
 
     # Retry → Agent 3
     builder.add_edge("retry_agent3", "agent3")

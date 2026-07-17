@@ -132,6 +132,7 @@ def routing_node(state: AgentState) -> Dict[str, Any]:
             base_url=OLLAMA_BASE_URL,
             temperature=0.1,  # Düşük temperature: tutarlı JSON çıktısı
             format="json",    # Ollama JSON modu (structured output)
+            timeout=10.0,     # Bağlantı/yanıt zaman aşımı (saniye)
         )
 
         response = llm.invoke(lc_messages)
