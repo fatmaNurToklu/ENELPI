@@ -210,6 +210,38 @@ Gerçek ajan kodları olmadan sistemi test etmek için:
 
 ---
 
+## 📸 Ekran Görüntüleri ve Sistem İşleyişi
+
+ENELPİ'nin orkestrasyon akışı ve kullanıcı arayüzünün (Streamlit) ekran görüntüleri aşağıda çalışma adımlarıyla eşleştirilmiştir:
+
+### 1. Ana Arayüz (OCR & Sınıflandırma)
+Sistemin ana kontrol panelidir. Kullanıcı bir resmî evrak yükleyip süreci başlattığında, **Ajan 1** OCR motorunu (Tesseract) ve sınıflandırıcıyı tetikler. Metin içeriği çıkarılarak evrak türü tespit edilir.
+
+![ENELPİ Ana Arayüz](ekran_görüntüleri/ENELPİ_arayüz.png)
+
+---
+
+### 2. Eksik Bilgi Tespiti & Geri Besleme (Human-in-the-Loop)
+**Ajan 2** evrak türüne göre zorunlu olan alanlarda (örn: dilekçede T.C. Kimlik No veya tarih) bir eksiklik bulursa, **Ajan 4** (LangGraph) akışı durdurur (Interrupt). Arayüzde dinamik bir form açılır. Kullanıcı eksikleri tamamladığında grafik uyanarak (Resume) **Ajan 2**'ye geri besleme (Loopback) yapar.
+
+![Eksik Bilgi Tamamlama](ekran_görüntüleri/ENELPİ_eksik_bilgi_tamamlama.png)
+
+---
+
+### 3. Birim Yönlendirme Kararı
+Evrak başarıyla çözümlendikten sonra **Ajan 4**'ün entegre Yönlendirme Modeli (LLM Few-Shot) devreye girer. Evrakın konusunu, özetini ve RAG ile eşleşen mevzuatları inceleyerek ilgili departmanı (örn: Bilgi İşlem, Hukuk, Yazı İşleri vb.) belirler ve bir **gerekçe + güven skoru** üretir.
+
+![Birim Yönlendirme](ekran_görüntüleri/ENELPİ_yönlendirme.png)
+
+---
+
+### 4. İnsan Onay Masası (Güvenlik Kapısı)
+Eğer evrakta resmî üslup ihlali saptanırsa (Ajan 3) ya da OCR güven skoru çok düşükse, evrak otomatik gönderilmez. Sistem durumu `INSAN_ONAYI_BEKLIYOR` olarak işaretlenir ve yetkilinin düzenleme ve onay ekranına yönlendirilir.
+
+![İnsan Onayı Masası](ekran_görüntüleri/ENELPİ_insan_onayı.png)
+
+---
+
 ## 🔧 Teknoloji Yığını
 
 | Katman | Teknoloji | Kullanım Amacı |
