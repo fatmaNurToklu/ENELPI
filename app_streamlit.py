@@ -227,6 +227,46 @@ div.stButton > button:hover {
     text-align: center;
     margin-top: 10px;
 }
+
+/* File Uploader Turkcelestirme */
+[data-testid="stFileUploader"] button {
+    font-size: 0 !important;
+}
+[data-testid="stFileUploader"] button * {
+    display: none !important;
+}
+[data-testid="stFileUploader"] button::before {
+    content: "Dosya Seçin" !important;
+    font-size: 14px !important;
+    display: inline-block !important;
+    visibility: visible !important;
+}
+[data-testid="stFileUploaderDropzone"] [data-testid="stFileUploaderDropzoneText"] {
+    font-size: 0 !important;
+}
+[data-testid="stFileUploaderDropzone"] [data-testid="stFileUploaderDropzoneText"] * {
+    display: none !important;
+}
+[data-testid="stFileUploaderDropzone"] [data-testid="stFileUploaderDropzoneText"]::after {
+    content: "Dosyayı buraya sürükleyip bırakın" !important;
+    font-size: 14px !important;
+    display: block !important;
+    visibility: visible !important;
+    color: #94a3b8 !important;
+}
+[data-testid="stFileUploader"] section small {
+    font-size: 0 !important;
+}
+[data-testid="stFileUploader"] section small * {
+    display: none !important;
+}
+[data-testid="stFileUploader"] section small::after {
+    content: "Limit: Dosya başına 200MB (PDF, JPG, JPEG, PNG, TXT)" !important;
+    font-size: 12px !important;
+    display: block !important;
+    visibility: visible !important;
+    color: #64748b !important;
+}
 </style>
 """
 st.markdown(CUSTOM_CSS, unsafe_allow_html=True)

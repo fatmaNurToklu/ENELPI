@@ -16,6 +16,20 @@ from pathlib import Path
 import cv2
 import numpy as np
 import pytesseract
+import shutil
+import os
+
+# Windows icin Tesseract yolunu otomatik belirleme destegi
+if not shutil.which("tesseract"):
+    for tpath in [
+        r"C:\Program Files\Tesseract-OCR\tesseract.exe",
+        r"C:\Program Files (x86)\Tesseract-OCR\tesseract.exe",
+        os.path.expanduser(r"~\AppData\Local\Programs\Tesseract-OCR\tesseract.exe"),
+    ]:
+        if os.path.exists(tpath):
+            pytesseract.pytesseract.tesseract_cmd = tpath
+            break
+
 import pdfplumber
 
 from on_isleme import on_isle
