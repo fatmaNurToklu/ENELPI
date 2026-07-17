@@ -4,7 +4,7 @@
 
 **Çok Ajanlı Kamu Evrak Orkestrasyon Sistemi**
 
-***Detaylı proje raporu "TEKNOFEST_TYDA_On_Tasarim_Raporu" adı altında bulunmaktadır***
+***Detaylı proje raporu, atıflar ve görev detayları "TEKNOFEST_TYDA_On_Tasarim_Raporu" adı altında bulunmaktadır***
 
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
 [![LangGraph](https://img.shields.io/badge/LangGraph-Orchestration-4f8ef7?style=for-the-badge)](https://github.com/langchain-ai/langgraph)
